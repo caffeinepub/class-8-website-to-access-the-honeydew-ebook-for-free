@@ -1,0 +1,162 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Class 8 Honeydew Free Ebook Website (Frontend)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Create and apply a coherent, student-friendly visual theme across the site (non-blue/purple primary palette).",
+      "acceptanceCriteria": [
+        "All pages share a consistent theme (typography scale, color tokens, button styles, card styles).",
+        "Primary/brand color scheme is not blue+purple."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Define global theme tokens (CSS variables used by Tailwind/shadcn-ui), typography scale, spacing, and base element styles using a warm, student-friendly palette (avoid blue/purple as primary). Ensure styles apply consistently across the app."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Tune Tailwind theme usage to align with the site tokens (container/typography defaults as needed) so pages/components consistently use the same design system."
+        },
+        {
+          "path": "frontend/src/components/layout/SiteLayout.tsx",
+          "operation": "create",
+          "description": "Create a shared layout wrapper that applies consistent page width, padding, header/footer spacing, and background styling for all views. Use shadcn-ui layout-friendly primitives where appropriate; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Implement a simple landing page that lists the free ebook “Honeydew” with a prominent action to open/read it.",
+      "acceptanceCriteria": [
+        "Landing page displays the ebook title “Honeydew”.",
+        "A clear “Read now” (or equivalent) action navigates to an ebook reading view.",
+        "UI is responsive and usable on mobile and desktop."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "create",
+          "description": "Build the landing page UI for Class 8 students that displays the generated logo + hero illustration and renders the ebook list (initially Honeydew) with a prominent “Read now” action. Use shadcn-ui components (e.g., Button/Card) for consistent UI; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Add top-level app composition and route wiring so the landing page is reachable as the default view and navigation to the reader view is supported (no login required)."
+        },
+        {
+          "path": "frontend/src/components/BookCard.tsx",
+          "operation": "create",
+          "description": "Create a reusable, responsive book listing card component showing title and a clear primary action to read. Compose shadcn-ui components for consistent visuals; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add an in-browser ebook reading view for “Honeydew” with optional download, without requiring login.",
+      "acceptanceCriteria": [
+        "The Honeydew ebook can be opened in an in-browser viewer (e.g., embedded PDF view).",
+        "A visible download link/button is available.",
+        "No authentication is required to access the reader or download."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ReaderPage.tsx",
+          "operation": "create",
+          "description": "Implement the ebook reader view that embeds the PDF in-browser (e.g., iframe/object) and includes a clear download button/link using the catalog-provided assetPath. Compose shadcn-ui components for actions and layout; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the reader view into navigation/routing and ensure it is publicly accessible (no auth gating) and reachable from the landing page action."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Fetch and render a minimal ebook catalog from the backend interface and use the returned asset path/URL to open the reader.",
+      "acceptanceCriteria": [
+        "Backend exposes a query method that returns a list containing an entry for “Honeydew”.",
+        "Frontend fetches the ebook catalog and renders it on the landing page.",
+        "The reader view uses the catalog entry’s asset path/URL to open the Honeydew ebook."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/services/backendClient.ts",
+          "operation": "create",
+          "description": "Create a small frontend wrapper to access the existing backend actor and call getBooks() using the project's core-infrastructure backend connection configuration. Verify the component's usage instructions before implementing (core-infrastructure)."
+        },
+        {
+          "path": "frontend/src/hooks/useBooks.ts",
+          "operation": "create",
+          "description": "Add a React hook to fetch the book catalog (getBooks) and expose loading/error states for UI rendering (integrate with the existing React Query setup)."
+        },
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "modify",
+          "description": "Fetch the catalog via useBooks(), render the returned book list, and ensure the “Read now” action navigates using the selected book’s assetPath."
+        },
+        {
+          "path": "frontend/src/pages/ReaderPage.tsx",
+          "operation": "modify",
+          "description": "Resolve the requested book from the catalog (by title or a simple route param) and open the embedded PDF using the catalog entry’s assetPath; keep the view accessible without authentication."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Add the Honeydew PDF as a static public asset and ensure the catalog points to a stable path with a single swap step for the real file.",
+      "acceptanceCriteria": [
+        "A PDF exists under frontend/public and is accessible via the browser at a stable path.",
+        "The app’s “Honeydew” entry points to that stable path.",
+        "If a placeholder is used, there is one obvious replacement step (swap the PDF file, keep filename the same) and the app continues to work."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/ebooks/honeydew.pdf",
+          "operation": "create",
+          "description": "Add a placeholder Honeydew PDF at a stable public path. Document (in a short comment/README note near where the path is referenced) that replacing this single file with the real PDF (same filename) requires no code changes."
+        },
+        {
+          "path": "frontend/src/constants/books.ts",
+          "operation": "create",
+          "description": "Define the stable public asset path string for the Honeydew PDF (e.g., used as a fallback or for local verification) so there is a single obvious place to confirm/adjust the filename if needed."
+        },
+        {
+          "path": "frontend/src/pages/ReaderPage.tsx",
+          "operation": "modify",
+          "description": "Ensure the reader embed and download action use the stable assetPath supplied by the catalog (and optionally fall back to the constant) so the same filename swap continues to work."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Include generated static brand assets (logo + hero illustration) and render them on the landing page as static frontend assets.",
+      "acceptanceCriteria": [
+        "Generated images are stored under frontend/public/assets/generated.",
+        "Landing page displays the generated logo and hero illustration.",
+        "No backend routes/methods are used to deliver these images."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/honeydew-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated logo image asset as a static file at frontend/public/assets/generated/honeydew-logo.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/honeydew-hero.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add the generated hero illustration asset as a static file at frontend/public/assets/generated/honeydew-hero.dim_1600x900.png."
+        },
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "modify",
+          "description": "Render the static brand assets from frontend/public/assets/generated/honeydew-logo.dim_512x512.png and frontend/public/assets/generated/honeydew-hero.dim_1600x900.png in the landing page UI (served as static frontend assets, not via backend)."
+        }
+      ]
+    }
+  ]
+}

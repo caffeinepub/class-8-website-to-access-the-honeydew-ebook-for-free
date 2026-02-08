@@ -1,0 +1,20 @@
+{
+  "backend/main.mo": "Defines a Book type, stores a single Honeydew entry, and exposes a query method to return the book list.",
+  "feature_evidence.json": "Feature evidence report mapping product requirements to related frontend files and components.",
+  "frontend-file-summaries.txt": "Prewritten summaries describing the purpose of key frontend files and components.",
+  "frontend/index.css": "Tailwind base styles configuring a color‑variable theme and global background/foreground rules.",
+  "frontend/index.html": "Simple HTML root document loading the React application via main.tsx.",
+  "frontend/src/App.tsx": "Sets up TanStack Router with routes for the landing and reader pages within a shared layout.",
+  "frontend/src/components/BookCard.tsx": "Book card UI component with a read button that navigates to the reader page.",
+  "frontend/src/components/layout/SiteLayout.tsx": "Defines a global page layout with header, footer, and wrapped content area.",
+  "frontend/src/constants/books.ts": "Exports the static path to the Honeydew PDF asset with instructions for replacement.",
+  "frontend/src/hooks/useActor.ts": "Creates and caches a backend actor tied to internet identity, refreshing dependent queries on change.",
+  "frontend/src/hooks/useBooks.ts": "Fetches the book catalog from the backend using React Query and the actor hook.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Provides Internet Identity context, login handling, and persistent identity management.",
+  "frontend/src/index.css": "Defines a warm educational OKLCH color palette and global typography styles via Tailwind.",
+  "frontend/src/main.tsx": "Bootstraps the React app with QueryClient and InternetIdentityProvider and renders App.",
+  "frontend/src/pages/LandingPage.tsx": "Renders the landing page with a hero banner, ebook list from useBooks, loading/error states, and feature highlights.",
+  "frontend/src/pages/ReaderPage.tsx": "Displays a selected book’s PDF in an iframe, handling loading, navigation, and download via the book’s asset path.",
+  "frontend/tailwind.config.js": "Defines Tailwind theme extensions, colors, animations, and plugins for typography, container queries, and animations.",
+  "project_state.json": "Stores project metadata, feature list, requirements, and image asset needs for the Honeydew ebook website."
+}

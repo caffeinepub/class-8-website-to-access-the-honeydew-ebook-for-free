@@ -1,0 +1,11 @@
+{
+  "frontend/src/index.css": "Global styles with warm educational color palette (green/amber tones) using OKLCH color system for both light and dark modes, plus typography and animation definitions.",
+  "frontend/tailwind.config.js": "Tailwind configuration extending the theme with custom colors, shadows, animations, and container settings aligned with the educational design system.",
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, defining routes for landing page and reader page within a shared layout.",
+  "frontend/src/components/layout/SiteLayout.tsx": "Shared layout wrapper providing consistent header with logo, main content area, and footer with attribution across all pages.",
+  "frontend/src/pages/LandingPage.tsx": "Landing page displaying hero section with generated assets, book catalog fetched from backend, and feature highlights for the ebook platform.",
+  "frontend/src/pages/ReaderPage.tsx": "PDF reader page with embedded viewer, download button, and navigation back to library, using book data from backend catalog.",
+  "frontend/src/components/BookCard.tsx": "Reusable book card component displaying book information with a prominent \"Read Now\" button that navigates to the reader page.",
+  "frontend/src/hooks/useBooks.ts": "React Query hook for fetching the book catalog from the backend actor with loading and error states.",
+  "frontend/src/constants/books.ts": "Constants file defining the stable PDF asset path with documentation for easy file replacement without code changes."
+}

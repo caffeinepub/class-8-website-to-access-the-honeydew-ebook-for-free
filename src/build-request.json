@@ -1,0 +1,143 @@
+{
+  "kind": "build_request",
+  "title": "Class 8 website to access the Honeydew ebook for free",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a coherent, student-friendly visual theme for the site (colors, typography, spacing, and layout) and apply it consistently across all pages and components (avoid a blue/purple primary palette).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Build a website for class 8th students where students can access ebook for free (the book name which students can access is honeydew"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All pages share a consistent theme (typography scale, color tokens, button styles, card styles).",
+        "Primary/brand color scheme is not blue+purple."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement a simple landing page for Class 8 students that clearly lists the available free ebook: “Honeydew”, with a prominent action to open/read it.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Build a website for class 8th students where students can access ebook for free (the book name which students can access is honeydew"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Landing page displays the ebook title “Honeydew”.",
+        "A clear “Read now” (or equivalent) action navigates to an ebook reading view.",
+        "UI is responsive and usable on mobile and desktop."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Add an ebook reading view for “Honeydew” that allows students to read the book in-browser and optionally download it, without requiring login.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "students can access ebook for free (the book name which students can access is honeydew"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The Honeydew ebook can be opened in an in-browser viewer (e.g., embedded PDF view).",
+        "A visible download link/button is available.",
+        "No authentication is required to access the reader or download."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add backend support to serve a minimal catalog of available ebooks (initially only “Honeydew”), including title and a frontend-accessible asset path/URL for the ebook file.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "the book name which students can access is honeydew"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes a query method that returns a list containing an entry for “Honeydew”.",
+        "Frontend fetches the ebook catalog and renders it on the landing page.",
+        "The reader view uses the catalog entry’s asset path/URL to open the Honeydew ebook."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Add the Honeydew ebook file as a static frontend asset and wire it to the ebook catalog entry (use a clearly named PDF file path under frontend/public). If the actual PDF cannot be provided at build time, include a placeholder PDF and a single documented place to swap in the real file without code changes.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "access ebook for free (the book name which students can access is honeydew"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A PDF exists under frontend/public and is accessible via the browser at a stable path.",
+        "The app’s “Honeydew” entry points to that stable path.",
+        "If a placeholder is used, there is one obvious replacement step (swap the PDF file, keep filename the same) and the app continues to work."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Generate and include basic static brand assets for the site (logo and a simple hero illustration) and render them in the UI as static assets (do not serve images through the backend).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images are stored under frontend/public/assets/generated.",
+        "Landing page displays the generated logo and hero illustration.",
+        "No backend routes/methods are used to deliver these images."
+      ]
+    }
+  ],
+  "constraints": [
+    "Use English for all user-facing text.",
+    "Do not edit files under frontend/src/components/ui or other immutable paths listed in SYSTEM_CONTEXT; only compose/reuse them.",
+    "Backend must remain a single Motoko actor (no additional backend services or databases)."
+  ],
+  "nonGoals": [
+    "Multiple ebooks beyond “Honeydew”.",
+    "User accounts, logins, or Internet Identity sign-in flows.",
+    "Payments, subscriptions, or paywalls.",
+    "Real-time features (chat, notifications)."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Simple student-friendly logo mark with the word “Honeydew” (honeydew-logo.dim_512x512.png)",
+      "Warm, minimal hero illustration of a student reading with books and a soft, non-blue/purple palette (honeydew-hero.dim_1600x900.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [
+      "Provide a free, simple website for Class 8 students to read the Honeydew ebook online."
+    ],
+    "goalsToRemove": [],
+    "preferencesToAdd": [
+      "All user-facing text should be in English."
+    ],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}
