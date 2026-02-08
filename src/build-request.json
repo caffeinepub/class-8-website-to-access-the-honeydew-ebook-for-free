@@ -1,143 +1,76 @@
 {
   "kind": "build_request",
-  "title": "Class 8 website to access the Honeydew ebook for free",
+  "title": "Add direct PDF open button and stop repeated eBook loading failures",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Create a coherent, student-friendly visual theme for the site (colors, typography, spacing, and layout) and apply it consistently across all pages and components (avoid a blue/purple primary palette).",
+      "text": "Add a user-visible control that opens the selected book PDF directly in the browser (not as a forced download), so users can open the PDF directly on the site.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-3",
+          "msg-4"
         ],
         "quotes": [
-          "Build a website for class 8th students where students can access ebook for free (the book name which students can access is honeydew"
+          "would you like to add a button that opens the PDF directly on the site?",
+          "Yes"
         ]
       },
       "acceptanceCriteria": [
-        "All pages share a consistent theme (typography scale, color tokens, button styles, card styles).",
-        "Primary/brand color scheme is not blue+purple."
+        "On the Reader page, there is an \"Open PDF\" (or equivalent) button/link that opens the current book's PDF in a new tab/window without the download attribute.",
+        "The existing \"Download PDF\" behavior remains available and unchanged.",
+        "The \"Open PDF\" control uses the existing backend-provided assetPath value (e.g., \"/assets/Honeydew.pdf\") and works for any book returned by getBooks()."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Implement a simple landing page for Class 8 students that clearly lists the available free ebook: “Honeydew”, with a prominent action to open/read it.",
+      "text": "Fix the bug where eBook loading fails repeatedly on site open by preventing endless/reflexive refetch loops and by adding stable error handling for the initial book fetch.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "Build a website for class 8th students where students can access ebook for free (the book name which students can access is honeydew"
+          "fix a bug also the is when the user is opening the site and the site is loading the ebook the loading is failing again and again"
         ]
       },
       "acceptanceCriteria": [
-        "Landing page displays the ebook title “Honeydew”.",
-        "A clear “Read now” (or equivalent) action navigates to an ebook reading view.",
-        "UI is responsive and usable on mobile and desktop."
+        "The books query does not continuously retry/refetch on failure in a way that appears as repeated failing/reloading to the user (configure React Query options accordingly, e.g., limit retries and disable refetch-on-window-focus/reconnect for this query).",
+        "When the books list fails to load, Landing page shows a clear error state and does not oscillate between loading/error repeatedly.",
+        "Reader page handles the books-loading failure state explicitly (shows an English error message and a user action such as \"Retry\" and/or \"Back to Library\"), instead of showing an indefinite spinner or repeatedly failing silently."
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Add an ebook reading view for “Honeydew” that allows students to read the book in-browser and optionally download it, without requiring login.",
+      "text": "Make the embedded PDF viewer resilient: show a deterministic loading state until the PDF iframe loads, and show an error fallback if the PDF fails to load, with an option to open the PDF directly.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "students can access ebook for free (the book name which students can access is honeydew"
+          "the site is loading the ebook the loading is failing again and again"
         ]
       },
       "acceptanceCriteria": [
-        "The Honeydew ebook can be opened in an in-browser viewer (e.g., embedded PDF view).",
-        "A visible download link/button is available.",
-        "No authentication is required to access the reader or download."
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Add backend support to serve a minimal catalog of available ebooks (initially only “Honeydew”), including title and a frontend-accessible asset path/URL for the ebook file.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "the book name which students can access is honeydew"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Backend exposes a query method that returns a list containing an entry for “Honeydew”.",
-        "Frontend fetches the ebook catalog and renders it on the landing page.",
-        "The reader view uses the catalog entry’s asset path/URL to open the Honeydew ebook."
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Add the Honeydew ebook file as a static frontend asset and wire it to the ebook catalog entry (use a clearly named PDF file path under frontend/public). If the actual PDF cannot be provided at build time, include a placeholder PDF and a single documented place to swap in the real file without code changes.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "access ebook for free (the book name which students can access is honeydew"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A PDF exists under frontend/public and is accessible via the browser at a stable path.",
-        "The app’s “Honeydew” entry points to that stable path.",
-        "If a placeholder is used, there is one obvious replacement step (swap the PDF file, keep filename the same) and the app continues to work."
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "text": "Generate and include basic static brand assets for the site (logo and a simple hero illustration) and render them in the UI as static assets (do not serve images through the backend).",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Generated images are stored under frontend/public/assets/generated.",
-        "Landing page displays the generated logo and hero illustration.",
-        "No backend routes/methods are used to deliver these images."
+        "Reader page shows a \"Loading PDF…\" state until the iframe fires a successful load event.",
+        "If the iframe fails to load (error event), the UI shows an English error message and provides at least one recovery action: a retry and/or an \"Open PDF\" link using the same assetPath.",
+        "The iframe is not forced to reload repeatedly without user action (e.g., no rapid state toggling that changes the iframe src back and forth)."
       ]
     }
   ],
   "constraints": [
-    "Use English for all user-facing text.",
-    "Do not edit files under frontend/src/components/ui or other immutable paths listed in SYSTEM_CONTEXT; only compose/reuse them.",
-    "Backend must remain a single Motoko actor (no additional backend services or databases)."
+    "Do not edit files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or anything in frontend/src/components/ui (compose existing UI components instead).",
+    "Keep backend as a single Motoko actor; do not introduce additional backend services or external databases."
   ],
   "nonGoals": [
-    "Multiple ebooks beyond “Honeydew”.",
-    "User accounts, logins, or Internet Identity sign-in flows.",
-    "Payments, subscriptions, or paywalls.",
-    "Real-time features (chat, notifications)."
+    "Adding new authentication providers beyond Internet Identity.",
+    "Adding real-time features (websockets/chat/notifications).",
+    "Changing the book data model or introducing multi-book admin management beyond what is required for the PDF open button and loading fix."
   ],
   "imageRequirements": {
-    "required": [
-      "Simple student-friendly logo mark with the word “Honeydew” (honeydew-logo.dim_512x512.png)",
-      "Warm, minimal hero illustration of a student reading with books and a soft, non-blue/purple palette (honeydew-hero.dim_1600x900.png)"
-    ],
+    "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [
-      "Provide a free, simple website for Class 8 students to read the Honeydew ebook online."
-    ],
-    "goalsToRemove": [],
-    "preferencesToAdd": [
-      "All user-facing text should be in English."
-    ],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

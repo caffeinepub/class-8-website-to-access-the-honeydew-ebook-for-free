@@ -1,65 +1,33 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-08T04:49:36.333Z",
-  "summary": "Implements backend book catalog, frontend routing (landing + reader), themed styling, catalog fetching, and an in-browser PDF reader with download. However, the required static PDF and generated image assets are only referenced, not added in the diff, and Internet Identity/auth plumbing appears added despite being a non-goal.",
+  "generatedAt": "2026-02-08T05:22:04.100Z",
+  "summary": "REQ-2 appears implemented via React Query configuration changes in useBooks and explicit Landing/Reader error states. REQ-1 and parts of REQ-3 are suggested by ReaderPage changes, but the diff excerpt is truncated and does not show the actual \"Open PDF\" control implementation or the iframe wiring for load/error events, so those acceptance criteria cannot be fully verified from the provided evidence.",
   "missing_requirements": [
     {
-      "id": "REQ-5",
-      "requirement": "Add the Honeydew ebook file as a static frontend asset under frontend/public and wire it to the ebook catalog entry, with a placeholder + one obvious swap step if needed.",
-      "reason": "The backend/catalog points to \"/assets/Honeydew.pdf\" and a replacement comment references \"frontend/public/assets/Honeydew.pdf\", but no PDF file is included in the diff summary, so the stable browser-accessible asset cannot be confirmed.",
+      "id": "REQ-1",
+      "requirement": "On the Reader page, provide an \"Open PDF\" (or equivalent) control that opens the current book PDF in a new tab/window without the download attribute, while keeping existing Download PDF behavior unchanged and using backend-provided assetPath.",
+      "reason": "ReaderPage is truncated before showing the actual PDF action controls/anchor attributes; the provided excerpt only shows state setup (pdfUrl from book.assetPath) but not the UI element that opens in a new tab/window and confirms the absence of a download attribute, nor evidence that the existing Download PDF behavior remains unchanged.",
       "evidence": [
-        "backend/main.mo",
-        "frontend/src/constants/books.ts"
+        "frontend/src/pages/ReaderPage.tsx (truncated)"
       ]
     },
     {
-      "id": "REQ-6",
-      "requirement": "Generate and include the logo and hero illustration under frontend/public/assets/generated and render them in the UI as static assets (not via backend).",
-      "reason": "UI references the required image paths under \"/assets/generated/...\", but the actual image files are not present in the diff summary under frontend/public/assets/generated.",
+      "id": "REQ-3",
+      "requirement": "Embedded PDF viewer resilience: show \"Loading PDF…\" until iframe load event, show an error fallback on iframe error with a recovery action (retry and/or open PDF), and avoid forced repeated reloads without user action.",
+      "reason": "The excerpt shows state and handlers (handleIframeLoad/handleIframeError/handleRetryPdf) but does not include the iframe element itself to confirm onLoad/onError are wired, the presence of a deterministic \"Loading PDF…\" UI, or the error fallback UI including an \"Open PDF\" action using assetPath.",
       "evidence": [
-        "frontend/src/components/layout/SiteLayout.tsx",
-        "frontend/src/pages/LandingPage.tsx"
+        "frontend/src/pages/ReaderPage.tsx (truncated)"
       ]
     }
   ],
-  "hallucinated_features": [
-    {
-      "description": "Internet Identity authentication/login infrastructure (provider, auth client, identity-based actor logic).",
-      "reason": "BuildRequest explicitly lists user accounts/logins/Internet Identity sign-in flows as non-goals, but the diff adds InternetIdentityProvider and related hooks and logic.",
-      "evidence": [
-        "frontend/src/main.tsx",
-        "frontend/src/hooks/useInternetIdentity.ts",
-        "frontend/src/hooks/useActor.ts"
-      ]
-    },
-    {
-      "description": "Footer attribution/link to caffeine.ai.",
-      "reason": "Not requested by the BuildRequest requirements or acceptance criteria.",
-      "evidence": [
-        "frontend/src/components/layout/SiteLayout.tsx"
-      ]
-    }
-  ],
-  "confidence": 0.78,
+  "hallucinated_features": [],
+  "confidence": 0.62,
   "changed_files": [
-    "all_files_summary.json",
-    "backend/main.mo",
     "frontend-file-summaries.txt",
-    "frontend/index.css",
-    "frontend/index.html",
-    "frontend/src/App.tsx",
-    "frontend/src/components/BookCard.tsx",
-    "frontend/src/components/layout/SiteLayout.tsx",
-    "frontend/src/constants/books.ts",
-    "frontend/src/hooks/useActor.ts",
     "frontend/src/hooks/useBooks.ts",
-    "frontend/src/hooks/useInternetIdentity.ts",
-    "frontend/src/index.css",
-    "frontend/src/main.tsx",
     "frontend/src/pages/LandingPage.tsx",
     "frontend/src/pages/ReaderPage.tsx",
-    "frontend/tailwind.config.js",
     "project_state.json"
   ]
 }

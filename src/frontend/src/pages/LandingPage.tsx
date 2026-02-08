@@ -1,9 +1,10 @@
 import { useBooks } from '../hooks/useBooks';
 import BookCard from '../components/BookCard';
-import { BookOpen, Loader2 } from 'lucide-react';
+import { BookOpen, Loader2, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function LandingPage() {
-  const { data: books, isLoading, error } = useBooks();
+  const { data: books, isLoading, error, refetch } = useBooks();
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
@@ -47,8 +48,18 @@ export default function LandingPage() {
 
         {error && (
           <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-6 text-center">
-            <p className="text-destructive font-medium">Failed to load books</p>
-            <p className="text-sm text-muted-foreground mt-2">Please try refreshing the page</p>
+            <p className="text-destructive font-medium mb-2">Failed to load books</p>
+            <p className="text-sm text-muted-foreground mb-4">
+              There was an error loading the book catalog. Please try again.
+            </p>
+            <Button
+              onClick={() => refetch()}
+              variant="outline"
+              className="gap-2"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Retry
+            </Button>
           </div>
         )}
 
@@ -101,4 +112,3 @@ export default function LandingPage() {
     </div>
   );
 }
-

@@ -1,14 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Provide a simple, student-friendly Class 8 website to access the “Honeydew” ebook for free, with an in-browser reader and download.
+**Goal:** Let users open a book PDF directly in the browser, and stabilize book/PDF loading so the app stops repeatedly failing/refetching on initial load.
 
 **Planned changes:**
-- Create and apply a consistent student-friendly visual theme across pages/components (avoid a blue/purple primary palette).
-- Build a responsive landing page that lists the free ebook “Honeydew” and includes a prominent “Read now” action.
-- Add an ebook reading view that embeds the Honeydew PDF in-browser and provides a download button/link, with no login.
-- Add a minimal backend catalog endpoint returning the single ebook entry (title + asset URL/path).
-- Add the Honeydew PDF under `frontend/public` (use a placeholder if needed) and wire the catalog entry to a stable path that can be swapped by replacing the PDF file only.
-- Include generated static brand assets (logo + hero illustration) under `frontend/public/assets/generated` and render them on the landing page.
+- Add an "Open PDF" control on the Reader page that opens the current book’s PDF in a new tab/window using the existing `assetPath`, without forcing download.
+- Keep the existing "Download PDF" behavior unchanged.
+- Prevent repeated/looping failures when fetching the books list by adjusting the books query behavior (e.g., limit retries and disable automatic refetch on focus/reconnect for this query) and showing a stable error state on the Landing page.
+- On the Reader page, add explicit handling for books-loading failure (clear English error message plus a user action such as Retry and/or Back to Library).
+- Make the embedded PDF iframe resilient: show a deterministic “Loading PDF…” state until iframe load, show an error fallback on iframe failure with a recovery action (retry and/or “Open PDF”), and avoid any automatic rapid iframe reload loops.
 
-**User-visible outcome:** Students can open the site, see “Honeydew” on the landing page with branding, click to read the ebook in the browser, and optionally download the PDF—no authentication required.
+**User-visible outcome:** Users can open the current book PDF directly in a new tab from the Reader, still download it as before, and the app no longer appears to endlessly fail/reload when books or PDFs fail to load—showing clear loading and error states with recovery actions instead.

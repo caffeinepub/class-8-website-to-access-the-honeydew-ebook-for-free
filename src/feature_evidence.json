@@ -2,12 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-create-a-coherent-student-friendly-visual-theme-for-the-site-colors-typography-spacing-and-layout-and-apply-it-consistently-across-all-pages-and-components-avoid-a-blue-purple-primary-palette",
-      "featureTitle": "Create a coherent, student-friendly visual theme for the site (colors, typography, spacing, and layout) and apply it consistently across all pages and components (avoid a blue/purple primary palette).",
+      "featureId": "feature-add-a-user-visible-control-that-opens-the-selected-book-pdf-directly-in-the-browser-not-as-a-forced-download-so-users-can-open-the-pdf-directly-on-the-site",
+      "featureTitle": "Add a user-visible control that opens the selected book PDF directly in the browser (not as a forced download), so users can open the PDF directly on the site.",
       "files": [
-        "frontend/src/components/layout/SiteLayout.tsx",
-        "frontend/src/index.css",
-        "frontend/tailwind.config.js"
+        "frontend/src/pages/ReaderPage.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -22,12 +20,12 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-implement-a-simple-landing-page-for-class-8-students-that-clearly-lists-the-available-free-ebook-honeydew-with-a-prominent-action-to-open-read-it",
-      "featureTitle": "Implement a simple landing page for Class 8 students that clearly lists the available free ebook: “Honeydew”, with a prominent action to open/read it.",
+      "featureId": "feature-fix-the-bug-where-ebook-loading-fails-repeatedly-on-site-open-by-preventing-endless-reflexive-refetch-loops-and-by-adding-stable-error-handling-for-the-initial-book-fetch",
+      "featureTitle": "Fix the bug where eBook loading fails repeatedly on site open by preventing endless/reflexive refetch loops and by adding stable error handling for the initial book fetch.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/BookCard.tsx",
-        "frontend/src/pages/LandingPage.tsx"
+        "frontend/src/hooks/useBooks.ts",
+        "frontend/src/pages/LandingPage.tsx",
+        "frontend/src/pages/ReaderPage.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -42,10 +40,9 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-an-ebook-reading-view-for-honeydew-that-allows-students-to-read-the-book-in-browser-and-optionally-download-it-without-requiring-login",
-      "featureTitle": "Add an ebook reading view for “Honeydew” that allows students to read the book in-browser and optionally download it, without requiring login.",
+      "featureId": "feature-make-the-embedded-pdf-viewer-resilient-show-a-deterministic-loading-state-until-the-pdf-iframe-loads-and-show-an-error-fallback-if-the-pdf-fails-to-load-with-an-option-to-open-the-pdf-directly",
+      "featureTitle": "Make the embedded PDF viewer resilient: show a deterministic loading state until the PDF iframe loads, and show an error fallback if the PDF fails to load, with an option to open the PDF directly.",
       "files": [
-        "frontend/src/App.tsx",
         "frontend/src/pages/ReaderPage.tsx"
       ],
       "components": [
@@ -57,63 +54,6 @@
       ],
       "testIds": [
         "REQ-3"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-backend-support-to-serve-a-minimal-catalog-of-available-ebooks-initially-only-honeydew-including-title-and-a-frontend-accessible-asset-path-url-for-the-ebook-file",
-      "featureTitle": "Add backend support to serve a minimal catalog of available ebooks (initially only “Honeydew”), including title and a frontend-accessible asset path/URL for the ebook file.",
-      "files": [
-        "frontend/src/hooks/useBooks.ts",
-        "frontend/src/pages/LandingPage.tsx",
-        "frontend/src/pages/ReaderPage.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-4"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-the-honeydew-ebook-file-as-a-static-frontend-asset-and-wire-it-to-the-ebook-catalog-entry-use-a-clearly-named-pdf-file-path-under-frontend-public-if-the-actual-pdf-cannot-be-provided-at-build-time-include-a-placeholder-pdf-and-a-single-documented-place-to-swap-in-the-real-file-without-code-changes",
-      "featureTitle": "Add the Honeydew ebook file as a static frontend asset and wire it to the ebook catalog entry (use a clearly named PDF file path under frontend/public). If the actual PDF cannot be provided at build time, include a placeholder PDF and a single documented place to swap in the real file without code changes.",
-      "files": [
-        "frontend/src/constants/books.ts",
-        "frontend/src/pages/ReaderPage.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-5"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-generate-and-include-basic-static-brand-assets-for-the-site-logo-and-a-simple-hero-illustration-and-render-them-in-the-ui-as-static-assets-do-not-serve-images-through-the-backend",
-      "featureTitle": "Generate and include basic static brand assets for the site (logo and a simple hero illustration) and render them in the UI as static assets (do not serve images through the backend).",
-      "files": [
-        "frontend/src/pages/LandingPage.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-6"
       ],
       "confidence": "high"
     }
