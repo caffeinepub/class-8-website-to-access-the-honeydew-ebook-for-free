@@ -21,10 +21,29 @@ export default function ReaderPage() {
 
   const book = books?.find(b => b.title.toLowerCase() === bookTitle.toLowerCase());
 
+  // Normalize asset path to browser-usable URL
+  const normalizeAssetPath = (path: string): string => {
+    if (!path) return '';
+    
+    // If path is a full URL (http:// or https://), use it directly
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      return path;
+    }
+    
+    // If path is just a filename like "/Honeydew.pdf", prepend /assets/
+    if (path.startsWith('/') && !path.startsWith('/assets/')) {
+      return `/assets${path}`;
+    }
+    
+    // Ensure path starts with /
+    return path.startsWith('/') ? path : `/${path}`;
+  };
+
   useEffect(() => {
     if (book) {
-      // Use the asset path from the backend
-      setPdfUrl(book.assetPath);
+      // Normalize the asset path for browser usage
+      const normalizedPath = normalizeAssetPath(book.assetPath);
+      setPdfUrl(normalizedPath);
       setIframeLoadState('loading');
     }
   }, [book]);
@@ -44,8 +63,9 @@ export default function ReaderPage() {
 
   const handleChapterClick = (page: number) => {
     if (book) {
-      // Update iframe URL with page anchor
-      setPdfUrl(`${book.assetPath}#page=${page}`);
+      // Update iframe URL with page anchor using normalized path
+      const normalizedPath = normalizeAssetPath(book.assetPath);
+      setPdfUrl(`${normalizedPath}#page=${page}`);
       setIframeLoadState('loading');
     }
   };
@@ -124,6 +144,9 @@ export default function ReaderPage() {
     );
   }
 
+  // Get normalized path for all PDF links
+  const normalizedPdfPath = normalizeAssetPath(book.assetPath);
+
   return (
     <div className="h-[calc(100vh-8rem)] flex flex-col">
       {/* Reader Header */}
@@ -145,7 +168,7 @@ export default function ReaderPage() {
             </div>
             <div className="flex items-center gap-2">
               <a
-                href={book.assetPath}
+                href={normalizedPdfPath}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-lg transition-colors font-medium text-sm"
@@ -154,7 +177,7 @@ export default function ReaderPage() {
                 <span className="hidden sm:inline">Open PDF</span>
               </a>
               <a
-                href={book.assetPath}
+                href={normalizedPdfPath}
                 download={`${book.title}.pdf`}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium text-sm"
               >
@@ -239,32 +262,32 @@ export default function ReaderPage() {
                     <div className="absolute inset-0 flex items-center justify-center bg-card">
                       <div className="text-center max-w-md px-4">
                         <AlertCircle className="h-12 w-12 mx-auto mb-4 text-destructive" />
-                        <h3 className="text-lg font-semibold mb-2">Failed to Load PDF</h3>
+                        <h3 className="text-lg font-semibold mb-2">Cannot Display PDF</h3>
                         <p className="text-sm text-muted-foreground mb-6">
-                          The PDF viewer encountered an error. You can try reloading or open the PDF in a new tab.
+                          Some PDFs cannot be embedded in this viewer due to security restrictions. Please use the "Open PDF" button below to view it in a new tab.
                         </p>
                         <div className="flex items-center justify-center gap-3">
                           <Button
-                            onClick={handleRetryPdf}
+                            asChild
                             variant="default"
                             className="gap-2"
                           >
-                            <RefreshCw className="h-4 w-4" />
-                            Retry
-                          </Button>
-                          <Button
-                            asChild
-                            variant="outline"
-                            className="gap-2"
-                          >
                             <a
-                              href={book.assetPath}
+                              href={normalizedPdfPath}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
                               <ExternalLink className="h-4 w-4" />
                               Open PDF
                             </a>
+                          </Button>
+                          <Button
+                            onClick={handleRetryPdf}
+                            variant="outline"
+                            className="gap-2"
+                          >
+                            <RefreshCw className="h-4 w-4" />
+                            Retry
                           </Button>
                         </div>
                       </div>

@@ -91,6 +91,7 @@ export class ExternalBlob {
 }
 export interface Book {
     title: string;
+    coverImagePath: string;
     assetPath: string;
 }
 export interface backendInterface {

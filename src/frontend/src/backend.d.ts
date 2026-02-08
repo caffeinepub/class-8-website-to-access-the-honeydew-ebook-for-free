@@ -9,6 +9,7 @@ export interface None {
 export type Option<T> = Some<T> | None;
 export interface Book {
     title: string;
+    coverImagePath: string;
     assetPath: string;
 }
 export interface backendInterface {

@@ -1,73 +1,51 @@
 {
   "kind": "build_request",
-  "title": "Add direct PDF open button and stop repeated eBook loading failures",
+  "title": "Add the missing Honeydew book PDFs so the library can open them",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Add a user-visible control that opens the selected book PDF directly in the browser (not as a forced download), so users can open the PDF directly on the site.",
+      "text": "Add the missing Honeydew book PDF files to the frontend static assets so every backend `Book.assetPath` currently returned by `getBooks()` resolves to a real, publicly accessible file path.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-3",
           "msg-4"
         ],
         "quotes": [
-          "would you like to add a button that opens the PDF directly on the site?",
-          "Yes"
+          "You haven't added the book"
         ]
       },
       "acceptanceCriteria": [
-        "On the Reader page, there is an \"Open PDF\" (or equivalent) button/link that opens the current book's PDF in a new tab/window without the download attribute.",
-        "The existing \"Download PDF\" behavior remains available and unchanged.",
-        "The \"Open PDF\" control uses the existing backend-provided assetPath value (e.g., \"/assets/Honeydew.pdf\") and works for any book returned by getBooks()."
+        "All of these URLs return a PDF (no 404) when loaded in the browser: `/assets/The_Best_Christmas_Present_in_the_World.pdf`, `/assets/The_Ant_and_the_Cricket.pdf`, `/assets/The_Tsunami.pdf`, `/assets/Glimpses_of_the_Past.pdf`, `/assets/Geography_Lesson.pdf`, `/assets/Bepin_Choudhurys_Lapse_of_Memory.pdf`, `/assets/The_Summit_Within.pdf`, `/assets/Macavity_The_Mystery_Cat.pdf`, `/assets/This_is_Jodys_Fawn.pdf`, `/assets/A_Visit_to_Cambridge.pdf`, `/assets/The_Last_Bargain.pdf`, `/assets/A_Short_Monsoon_Diary.pdf`, `/assets/The_Great_Stone_Face_I.pdf`, `/assets/The_Great_Stone_Face_II.pdf`",
+        "From the Landing page, clicking any book card navigates to the Reader page and the PDF loads via the iframe OR can be opened via the “Open PDF” button without a missing-file error"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Fix the bug where eBook loading fails repeatedly on site open by preventing endless/reflexive refetch loops and by adding stable error handling for the initial book fetch.",
-      "target": "frontend",
+      "text": "Ensure the backend book catalog returned by `getBooks()` corresponds to the actual added book resources (PDF filenames/paths) and, if any filenames differ from the added assets, update `Book.assetPath` values to match exactly.",
+      "target": "backend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "fix a bug also the is when the user is opening the site and the site is loading the ebook the loading is failing again and again"
+          "You haven't added the book"
         ]
       },
       "acceptanceCriteria": [
-        "The books query does not continuously retry/refetch on failure in a way that appears as repeated failing/reloading to the user (configure React Query options accordingly, e.g., limit retries and disable refetch-on-window-focus/reconnect for this query).",
-        "When the books list fails to load, Landing page shows a clear error state and does not oscillate between loading/error repeatedly.",
-        "Reader page handles the books-loading failure state explicitly (shows an English error message and a user action such as \"Retry\" and/or \"Back to Library\"), instead of showing an indefinite spinner or repeatedly failing silently."
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "Make the embedded PDF viewer resilient: show a deterministic loading state until the PDF iframe loads, and show an error fallback if the PDF fails to load, with an option to open the PDF directly.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "the site is loading the ebook the loading is failing again and again"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Reader page shows a \"Loading PDF…\" state until the iframe fires a successful load event.",
-        "If the iframe fails to load (error event), the UI shows an English error message and provides at least one recovery action: a retry and/or an \"Open PDF\" link using the same assetPath.",
-        "The iframe is not forced to reload repeatedly without user action (e.g., no rapid state toggling that changes the iframe src back and forth)."
+        "For every book returned by `getBooks()`, the Reader page’s normalized PDF URL points to an existing file (or a valid remote URL) and does not 404",
+        "No book entry in the UI links to a missing/nonexistent PDF due to filename or path mismatch"
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or anything in frontend/src/components/ui (compose existing UI components instead).",
-    "Keep backend as a single Motoko actor; do not introduce additional backend services or external databases."
+    "Use English for all user-facing text.",
+    "Backend must remain a single Motoko actor (no additional canisters/services).",
+    "Do not edit files under `frontend/src/components/ui` or the immutable hook files listed in SYSTEM_CONTEXT."
   ],
   "nonGoals": [
-    "Adding new authentication providers beyond Internet Identity.",
-    "Adding real-time features (websockets/chat/notifications).",
-    "Changing the book data model or introducing multi-book admin management beyond what is required for the PDF open button and loading fix."
+    "Do not add new authentication providers (Internet Identity only).",
+    "Do not add external databases or third-party storage/CDN dependencies."
   ],
   "imageRequirements": {
     "required": [],

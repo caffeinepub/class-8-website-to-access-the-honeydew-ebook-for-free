@@ -1,62 +1,51 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-08T05:22:04.102Z",
+  "generatedAt": "2026-02-08T06:07:07.818Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 2,
+    "implemented": 0,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Add a user-visible control that opens the selected book PDF directly in the browser (not as a forced download), so users can open the PDF directly on the site.",
-        "status": "implemented",
+        "summary": "Add the missing Honeydew book PDF files to the frontend static assets so every backend `Book.assetPath` currently returned by `getBooks()` resolves to a real, publicly accessible file path.",
+        "status": "missing",
         "plannedFiles": [
+          "frontend/public/assets/The_Best_Christmas_Present_in_the_World.pdf",
+          "frontend/public/assets/The_Ant_and_the_Cricket.pdf",
+          "frontend/public/assets/The_Tsunami.pdf",
+          "frontend/public/assets/Glimpses_of_the_Past.pdf",
+          "frontend/public/assets/Geography_Lesson.pdf",
+          "frontend/public/assets/Bepin_Choudhurys_Lapse_of_Memory.pdf",
+          "frontend/public/assets/The_Summit_Within.pdf",
+          "frontend/public/assets/Macavity_The_Mystery_Cat.pdf",
+          "frontend/public/assets/This_is_Jodys_Fawn.pdf",
+          "frontend/public/assets/A_Visit_to_Cambridge.pdf",
+          "frontend/public/assets/The_Last_Bargain.pdf",
+          "frontend/public/assets/A_Short_Monsoon_Diary.pdf",
+          "frontend/public/assets/The_Great_Stone_Face_I.pdf",
+          "frontend/public/assets/The_Great_Stone_Face_II.pdf",
           "frontend/src/pages/ReaderPage.tsx"
         ],
-        "matchedFiles": [
-          "frontend/src/pages/ReaderPage.tsx"
-        ]
+        "matchedFiles": []
       },
       {
         "id": "REQ-2",
-        "summary": "Fix the bug where eBook loading fails repeatedly on site open by preventing endless/reflexive refetch loops and by adding stable error handling for the initial book fetch.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useBooks.ts",
-          "frontend/src/pages/LandingPage.tsx",
-          "frontend/src/pages/ReaderPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useBooks.ts",
-          "frontend/src/pages/LandingPage.tsx",
-          "frontend/src/pages/ReaderPage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-3",
-        "summary": "Make the embedded PDF viewer resilient: show a deterministic loading state until the PDF iframe loads, and show an error fallback if the PDF fails to load, with an option to open the PDF directly.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/ReaderPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/ReaderPage.tsx"
-        ]
+        "summary": "Ensure the backend book catalog returned by `getBooks()` corresponds to the actual added book resources (PDF filenames/paths) and, if any filenames differ from the added assets, update `Book.assetPath` values to match exactly.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
       }
     ]
   },
   "changedFiles": [
     "build-request.json",
     "feature_evidence.json",
-    "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/hooks/useBooks.ts",
-    "frontend/src/pages/LandingPage.tsx",
-    "frontend/src/pages/ReaderPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

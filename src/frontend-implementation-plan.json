@@ -1,63 +1,90 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Reader PDF open control and resilient book/PDF loading UX",
+  "title": "Add missing Honeydew PDFs as public frontend assets",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Add an \"Open PDF\" control on the Reader page that opens the current book PDF in a new tab while keeping the existing download behavior unchanged.",
+      "summary": "Add the missing Honeydew chapter PDFs as public static assets and ensure the Reader page can reliably normalize `Book.assetPath` to the correct `/assets/*.pdf` URL.",
       "acceptanceCriteria": [
-        "On the Reader page, there is an \"Open PDF\" (or equivalent) button/link that opens the current book's PDF in a new tab/window without the download attribute.",
-        "The existing \"Download PDF\" behavior remains available and unchanged.",
-        "The \"Open PDF\" control uses the existing backend-provided assetPath value (e.g., \"/assets/Honeydew.pdf\") and works for any book returned by getBooks()."
+        "All of these URLs return a PDF (no 404) when loaded in the browser: `/assets/The_Best_Christmas_Present_in_the_World.pdf`, `/assets/The_Ant_and_the_Cricket.pdf`, `/assets/The_Tsunami.pdf`, `/assets/Glimpses_of_the_Past.pdf`, `/assets/Geography_Lesson.pdf`, `/assets/Bepin_Choudhurys_Lapse_of_Memory.pdf`, `/assets/The_Summit_Within.pdf`, `/assets/Macavity_The_Mystery_Cat.pdf`, `/assets/This_is_Jodys_Fawn.pdf`, `/assets/A_Visit_to_Cambridge.pdf`, `/assets/The_Last_Bargain.pdf`, `/assets/A_Short_Monsoon_Diary.pdf`, `/assets/The_Great_Stone_Face_I.pdf`, `/assets/The_Great_Stone_Face_II.pdf`",
+        "From the Landing page, clicking any book card navigates to the Reader page and the PDF loads via the iframe OR can be opened via the “Open PDF” button without a missing-file error"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/ReaderPage.tsx",
-          "operation": "modify",
-          "description": "Add an \"Open PDF\" control in the Reader header actions next to the existing \"Download PDF\" link, using the selected book's assetPath as the href and opening in a new tab (target/rel) without a download attribute. Keep the current Download PDF link intact and unchanged. If using shadcn-ui components (e.g., Button) for consistent styling, verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Stop repeated/oscillating eBook load failures by stabilizing the books query behavior and adding explicit, user-driven error recovery on Landing and Reader pages.",
-      "acceptanceCriteria": [
-        "The books query does not continuously retry/refetch on failure in a way that appears as repeated failing/reloading to the user (configure React Query options accordingly, e.g., limit retries and disable refetch-on-window-focus/reconnect for this query).",
-        "When the books list fails to load, Landing page shows a clear error state and does not oscillate between loading/error repeatedly.",
-        "Reader page handles the books-loading failure state explicitly (shows an English error message and a user action such as \"Retry\" and/or \"Back to Library\"), instead of showing an indefinite spinner or repeatedly failing silently."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useBooks.ts",
-          "operation": "modify",
-          "description": "Adjust the React Query configuration for the books query to prevent apparent refetch/retry loops (e.g., set a bounded retry policy and disable refetch-on-window-focus/refetch-on-reconnect for this query). Ensure the query exposes refetch and error state cleanly to callers."
+          "path": "frontend/public/assets/The_Best_Christmas_Present_in_the_World.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/The_Best_Christmas_Present_in_the_World.pdf`."
         },
         {
-          "path": "frontend/src/pages/LandingPage.tsx",
-          "operation": "modify",
-          "description": "Update the Landing page to use stable query states (loading/error/success) from useBooks; on error, render a deterministic error panel with an English message and an in-page \"Retry\" action that calls the query refetch (instead of suggesting refresh). If using shadcn-ui components (e.g., Button) for the Retry action, verify the component's usage instructions before implementing."
+          "path": "frontend/public/assets/The_Ant_and_the_Cricket.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/The_Ant_and_the_Cricket.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/The_Tsunami.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/The_Tsunami.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/Glimpses_of_the_Past.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/Glimpses_of_the_Past.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/Geography_Lesson.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/Geography_Lesson.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/Bepin_Choudhurys_Lapse_of_Memory.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/Bepin_Choudhurys_Lapse_of_Memory.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/The_Summit_Within.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/The_Summit_Within.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/Macavity_The_Mystery_Cat.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/Macavity_The_Mystery_Cat.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/This_is_Jodys_Fawn.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/This_is_Jodys_Fawn.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/A_Visit_to_Cambridge.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/A_Visit_to_Cambridge.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/The_Last_Bargain.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/The_Last_Bargain.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/A_Short_Monsoon_Diary.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/A_Short_Monsoon_Diary.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/The_Great_Stone_Face_I.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/The_Great_Stone_Face_I.pdf`."
+        },
+        {
+          "path": "frontend/public/assets/The_Great_Stone_Face_II.pdf",
+          "operation": "create",
+          "description": "Add the missing PDF asset so it is publicly accessible at `/assets/The_Great_Stone_Face_II.pdf`."
         },
         {
           "path": "frontend/src/pages/ReaderPage.tsx",
           "operation": "modify",
-          "description": "Handle books loading failure explicitly: if useBooks returns an error, show an English error message and user actions (\"Retry\" via refetch and \"Back to Library\"). Ensure the Reader does not remain on an indefinite spinner when the initial books fetch fails. If using shadcn-ui components (e.g., Button) for actions, verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Make the embedded PDF iframe viewer resilient with deterministic load/error states and user-driven recovery (retry and/or open PDF).",
-      "acceptanceCriteria": [
-        "Reader page shows a \"Loading PDF…\" state until the iframe fires a successful load event.",
-        "If the iframe fails to load (error event), the UI shows an English error message and provides at least one recovery action: a retry and/or an \"Open PDF\" link using the same assetPath.",
-        "The iframe is not forced to reload repeatedly without user action (e.g., no rapid state toggling that changes the iframe src back and forth)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/ReaderPage.tsx",
-          "operation": "modify",
-          "description": "Introduce explicit iframe load state management (e.g., loading/loaded/error) tied to the iframe onLoad/onError events. Render a \"Loading PDF…\" overlay/state until load succeeds; on error, render an English fallback with recovery actions (at minimum: a user-driven retry that remounts/refreshes the iframe without creating an automatic loop, and/or an \"Open PDF\" link using the same assetPath). Ensure src changes only occur on initial selection and explicit user actions (chapter navigation/retry), not via reactive toggling. If using shadcn-ui components (e.g., Button) for retry/fallback actions, verify the component's usage instructions before implementing."
+          "description": "Harden `normalizeAssetPath` so it correctly maps `Book.assetPath` to a working browser URL for all common forms returned by the backend (e.g., `/The_Tsunami.pdf`, `The_Tsunami.pdf`, `assets/The_Tsunami.pdf`, `/assets/The_Tsunami.pdf`, or a full `https://...` URL), ensuring the iframe/Open PDF/Download links point to the real `/assets/*.pdf` files."
         }
       ]
     }

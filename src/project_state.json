@@ -1,47 +1,38 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Website for hosting/loading an ebook (PDF) with a requested button to open the PDF directly on-site.",
+  "summary": "New project",
   "architectural_notes": [],
   "known_issues": [
-    "Bug: When users open the site and the ebook is loading, the loading fails repeatedly (keeps failing again and again)."
+    "Book has not been added to the project/build yet."
   ],
   "isFixRequest": true,
-  "existing_features": [
-    {
-      "id": "feature-add-a-user-visible-control-that-opens-the-selected-book-pdf-directly-in-the-browser-not-as-a-forced-download-so-users-can-open-the-pdf-directly-on-the-site",
-      "title": "Add a user-visible control that opens the selected book PDF directly in the browser (not as a forced download), so users can open the PDF directly on the site.",
-      "reqIds": [
-        "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-fix-the-bug-where-ebook-loading-fails-repeatedly-on-site-open-by-preventing-endless-reflexive-refetch-loops-and-by-adding-stable-error-handling-for-the-initial-book-fetch",
-      "title": "Fix the bug where eBook loading fails repeatedly on site open by preventing endless/reflexive refetch loops and by adding stable error handling for the initial book fetch.",
-      "reqIds": [
-        "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-make-the-embedded-pdf-viewer-resilient-show-a-deterministic-loading-state-until-the-pdf-iframe-loads-and-show-an-error-fallback-if-the-pdf-fails-to-load-with-an-option-to-open-the-pdf-directly",
-      "title": "Make the embedded PDF viewer resilient: show a deterministic loading state until the PDF iframe loads, and show an error fallback if the PDF fails to load, with an option to open the PDF directly.",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "version": 1
-    }
-  ],
+  "existing_features": [],
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Add a button that opens the PDF directly on the site",
+      "summary": "Add the book content/resource to the project (currently missing)",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Add the missing Honeydew book PDF files to the frontend static assets so every backend `Book.assetPath` currently returned by `getBooks()` resolves to a real, publicly accessible file path.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Ensure the backend book catalog returned by `getBooks()` corresponds to the actual added book resources (PDF filenames/paths) and, if any filenames differ from the added assets, update `Book.assetPath` values to match exactly.",
+      "reqIds": [
+        "REQ-2"
+      ],
       "status": "pending"
     }
   ],
-  "projectName": "Add direct PDF open button and stop repeated eBook loading failures",
+  "projectName": "Add the missing Honeydew book PDFs so the library can open them",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

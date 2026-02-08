@@ -8,7 +8,11 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
-export const Book = IDL.Record({ 'title' : IDL.Text, 'assetPath' : IDL.Text });
+export const Book = IDL.Record({
+  'title' : IDL.Text,
+  'coverImagePath' : IDL.Text,
+  'assetPath' : IDL.Text,
+});
 
 export const idlService = IDL.Service({
   'getBooks' : IDL.Func([], [IDL.Vec(Book)], ['query']),
@@ -17,7 +21,11 @@ export const idlService = IDL.Service({
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
-  const Book = IDL.Record({ 'title' : IDL.Text, 'assetPath' : IDL.Text });
+  const Book = IDL.Record({
+    'title' : IDL.Text,
+    'coverImagePath' : IDL.Text,
+    'assetPath' : IDL.Text,
+  });
   
   return IDL.Service({ 'getBooks' : IDL.Func([], [IDL.Vec(Book)], ['query']) });
 };
